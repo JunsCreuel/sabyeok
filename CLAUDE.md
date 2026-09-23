@@ -10,9 +10,21 @@
 ## 기술 스택
 
 React 19 + Vite, react-router-dom 7(HashRouter), Context+useState 전역 상태
-(`src/store/useApp.jsx`, localStorage 저장), 순수 CSS(`src/index.css` 토큰),
-oxlint. GitHub Pages 배포(`vite.config.js`의 `base: './'`, main 푸시 시 Actions
-자동 배포).
+(`src/store/useApp.jsx`), 순수 CSS(`src/index.css` 토큰), oxlint. GitHub Pages
+배포(`vite.config.js`의 `base: './'`, main 푸시 시 Actions 자동 배포).
+
+## 백엔드: Firebase (Auth + Firestore)
+
+- 호스팅은 계속 GitHub Pages. Firebase는 백엔드(로그인, 데이터 저장)로만 사용.
+- 설정은 `src/firebase.js`. Firebase 웹 config 값은 비밀키가 아니라 공개
+  클라이언트 식별자라 코드에 그대로 둔다(보안은 Firestore 규칙이 담당).
+- 로그인: 닉네임+비밀번호 입력을 받아, 닉네임을 해시한 가짜 이메일로 Firebase
+  Auth(Email/Password)에 가입·로그인한다. 실제 이메일 수집 없음, 비밀번호
+  찾기도 없는 간이 계정.
+- 닉네임 프로필은 Firestore `users/{uid}` 문서에 저장.
+- Firestore 보안 규칙은 저장소의 `firestore.rules`에 참고용으로 보관 —
+  자동 배포되지 않으므로 규칙을 바꿀 때마다 Firebase 콘솔 > Firestore Database
+  > Rules 탭에 수동으로 붙여넣고 게시해야 한다.
 
 ## 디자인 시스템
 
